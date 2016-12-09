@@ -4,7 +4,8 @@
 #' @examples
 #' \dontrun{
 #' pallete <- Pallete$new("material_design")
-#' print(pallete)
+#' plot(pallete)
+#' # grab the colors as a vector
 #' mdc <- pallete$colors()
 #'
 #' mdc$blue
@@ -77,3 +78,18 @@ Pallete <- R6::R6Class("Pallete",
                            )
                        )
                    ))
+
+#' @import ggplot2
+#' @export
+plot.Pallete <- function(x, ...) {
+    colors <- x$colors()
+    color_df <- data.frame(
+        names = factor(names(colors),levels = names(colors)),
+        hex_value = colors)
+    ggplot(color_df, aes(x = 0, y = 0, label = hex_value)) + geom_blank() +
+        geom_rect(aes(fill = names),
+                  xmin = -Inf, xmax = Inf, ymin = -Inf, ymax = Inf) +
+        geom_label() +
+        facet_wrap(~names) + theme_void() +
+        scale_fill_manual(values = colors, guide = FALSE)
+}
