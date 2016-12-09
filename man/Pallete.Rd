@@ -17,7 +17,7 @@ importFrom R6 R6Class
 \dontrun{
 pallete <- Pallete$new("material_design")
 print(pallete)
-mdc <- pallete$colors
+mdc <- pallete$colors()
 
 mdc$blue
 }
