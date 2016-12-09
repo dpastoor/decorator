@@ -21,7 +21,7 @@ Pallete <- R6::R6Class("Pallete",
                           private$order_ <<- pallete$order
                        },
                        colors = function() {
-                            return(private$colors_[private$order_])
+                            return(as.list(private$colors_[private$order_]))
                        },
                        color_rainbow = function() {
                            return(private$colors_)
@@ -82,7 +82,7 @@ Pallete <- R6::R6Class("Pallete",
 #' @import ggplot2
 #' @export
 plot.Pallete <- function(x, ...) {
-    colors <- x$colors()
+    colors <- unlist(x$colors())
     color_df <- data.frame(
         names = factor(names(colors),levels = names(colors)),
         hex_value = colors)
